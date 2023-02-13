@@ -1,5 +1,7 @@
 import bot_settings
-from AppControl import AppControl
+from UserControl import UserControl
+from SpotControl import SpotControl
+from WaveForecast import WaveForecast
 from mongoDB import connect_database
 from logger import logger
 from telegram.ext import (
@@ -24,9 +26,9 @@ def app_help(update: Update, context: CallbackContext):
 def start_handler(update: Update, context: CallbackContext):
     chat_id = update.effective_message.chat_id
     database = connect_database()
-    app_control = AppControl(database)
-    if not app_control.find_user(chat_id):
-        app_control.add_user(chat_id)
+    user_control = UserControl(database)
+    if not user_control.find_user(chat_id):
+        user_control.add_user(chat_id)
         logger.info(f"new user with chat_id #{chat_id} created")
         context.bot.send_message(chat_id, "Welcome ...")
     else:
@@ -40,8 +42,8 @@ def start_handler(update: Update, context: CallbackContext):
 def get_spots_handler(update: Update, context: CallbackContext):
     chat_id = update.effective_message.chat_id
     database = connect_database()
-    app_control = AppControl(database)
-    spots = app_control.get_user_spots(chat_id)
+    user_control = UserControl(database)
+    spots = user_control.get_user_spots(chat_id)
     context.bot.send_message(chat_id, spots)
     logger.info(f"chat_id #{chat_id} asked for spots list")
 
@@ -104,9 +106,12 @@ def spot_handler(update: Update, context: CallbackContext):
     query = update.callback_query
     chat_id = update.effective_message.chat_id
     option = query.data
+    context.user_data["cur_spot"] = option
     database = connect_database()
-    app_control = AppControl(database)
-    app_control.set_spot(chat_id, option)
+    user_control = UserControl(database)
+    spot_control = SpotControl(database)
+    user_control.set_spot(chat_id, option)
+    spot_control.add_user_to_spot(option, chat_id)
     logger.info(f"chat_id #{chat_id} registered spot #{option}")
     context.bot.send_message(
         chat_id,
@@ -129,11 +134,13 @@ def spot_handler(update: Update, context: CallbackContext):
 
 def get_forecast(update: Update, context: CallbackContext):
     chat_id = update.effective_message.chat_id
+    spot_id = context.user_data["cur_spot"]
     database = connect_database()
-    app_control = AppControl(database)
-    data = app_control.get_forecast(chat_id)
+    spot_control = SpotControl(database)
+    spot_control.set_spot_forecast(spot_id)
+    forecast = spot_control.get_spot_forecast(spot_id)
     logger.info(f"chat_id #{chat_id} asked for forecast")
-    context.bot.send_message(chat_id, data)
+    context.bot.send_message(chat_id, forecast)
 
 
 def get_user_interaction(update: Update, context: CallbackContext):
