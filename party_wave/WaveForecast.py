@@ -1,11 +1,27 @@
 import datetime
+import requests
 import pytz
+from pydantic import BaseModel
 
 
-class WaveForecast:
-  
-  def __init__(self, forecast):
-    self.forecast = forecast
+class WaveForecast(BaseModel):
+  ENDPOINT = "https://magicseaweed.com/api/mdkey/forecast/?spot_id="
+  FIELDS = "&units=eu&fields=localTimestamp,solidRating,fadedRating,swell.minBreakingHeight,swell.maxBreakingHeight,wind.speed"
+  # local_time_stamp: datetime
+  # faded_rating: int
+  # solid_rating: int
+  # min_height: float
+  # max_height: float
+  # wind_speed: int
+  forecast = []
+
+  def get_forecast(self, spot_id):
+        data = requests.get(self.ENDPOINT + spot_id + self.FIELDS).json()
+        array_by_day = [
+            [data[j] for j in range(2, len(data[i : i + 8]), 2)]
+            for i in range(0, len(data), 8)
+        ]
+        self.forecast = array_by_day
 
   def localtimestamp_to_utc(self, timestamp):
     local_tz = pytz.timezone('Israel')
@@ -23,4 +39,6 @@ class WaveForecast:
         min_height = obj["swell"][0]
         max_height = obj["swell"][1]
         wind_speed = obj["wind"][0]
-        forecast_day += f"Date: {utc_timestamp}\nRating: {faded_rating} / {solid_rating}\nMinHeight: {min_height}m\nMaxHeight: {max_height}m\nWindSpeed: {wind_speed}kph "
+        forecast_day += f"Date: {utc_timestamp}\nRating: {faded_rating} / {solid_rating}\nMinHeight: {min_height}m\nMaxHeight: {max_height}m\nWindSpeed: {wind_speed}kph\n"
+      foracast_week += forecast_day
+    return foracast_week
