@@ -1,9 +1,10 @@
 # 🚧 YOUR BOT NAME HERE
 
 ## The Team
-- 🚧 Participant 1 Name
-- 🚧 Participant 2 Name
-- 🚧 Participant 3 Name
+
+- 🚧 Participant 1 - Sara
+- 🚧 Participant 2 - Ayala
+- 🚧 Participant 3 - Igor
 
 ## About this bot
 
@@ -14,27 +15,30 @@
 🚧 ADD SCREENSHOTS/GIFS/SCREENCAST HERE (REFER TO MARKDOWN'S SYNTAX FOR HELP ON DISPLAYING IMAGES)
 
 🚧 ADD ANY OTHER NOTES REGARDING THE BOT
- 
-## Instructions for Developers 
+
+## Instructions for Developers
+
 ### Prerequisites
+
 - Python 3.10
 - Poetry
 - 🚧 ADD ANY OTHER PREREQUISITE HERE (MONGODB?)
 
 ### Setup
-- git clone this repository 
+
+- git clone this repository
 - cd into the project directory
 - Install dependencies:
-    
-      poetry install
 
+      poetry install
 
 - Get an API Token for a bot via the [BotFather](https://telegram.me/BotFather)
 - Create a `bot_settings.py` file with your bot token:
 
       BOT_TOKEN = 'xxxxxxx'
 
-### Running the bot        
+### Running the bot
+
 - Run the bot:
 
       poetry run python bot.py
