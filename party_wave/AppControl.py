@@ -59,3 +59,5 @@ class AppControl:
             for i in range(0, len(data), 8)
         ]
         return array_by_day
+
+

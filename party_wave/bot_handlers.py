@@ -1,4 +1,8 @@
 import bot_settings
+import string
+from pathlib import Path
+import random
+import datetime
 from AppControl import AppControl
 from mongoDB import connect_database
 from logger import logger
@@ -125,6 +129,22 @@ def spot_handler(update: Update, context: CallbackContext):
         text="Please choose an action:",
         reply_markup=reply_markup,
     )
+
+def photos_upload_handler(update: Update, context: CallbackContext):
+    PHOTOS_PATH = Path(".") / "_photos"
+    PHOTOS_PATH.mkdir(exist_ok=True)
+    chat_id = update.effective_chat.id
+    text = update.message.text
+    code = get_random_code() #generates a name for photo file
+    filename = PHOTOS_PATH / f"photo_{code}.jpeg"
+    uploaded_photo = update.message.photo[-1].get_file()
+    uploaded_photo.download(str(filename))
+    upload_date = datetime.datetime.now()
+    logger.info(f"= Got photo on chat #{chat_id}, saved on {filename}")
+    response = f"Thank you for your upload"
+    context.bot.send_message(chat_id=update.message.chat_id, text=response)
+def get_random_code(k=16):
+    return "".join(random.choices(string.ascii_lowercase + string.digits, k=k))
 
 
 def get_forecast(update: Update, context: CallbackContext):

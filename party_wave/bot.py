@@ -9,6 +9,7 @@ from bot_handlers import (
     spot_handler,
     get_forecast,
     get_user_interaction,
+    photos_upload_handler
 )
 from telegram.ext import (
     CommandHandler,
@@ -29,6 +30,7 @@ def bot():
     dispatcher.add_handler(CommandHandler("help", app_help))
     dispatcher.add_handler(CommandHandler("list", get_spots_handler))
     dispatcher.add_handler(CommandHandler("register", registration_handler))
+    dispatcher.add_handler(MessageHandler(Filters.photo, photos_upload_handler))
     dispatcher.add_handler(
         CallbackQueryHandler(area_handler, pattern="^(north|central|south)$")
     )
