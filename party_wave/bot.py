@@ -1,3 +1,4 @@
+import datetime
 import bot_settings
 from logger import logger
 from bot_handlers import (
@@ -9,6 +10,7 @@ from bot_handlers import (
     spot_handler,
     get_forecast,
     get_user_interaction,
+    send_daily_forecast,
 )
 from telegram.ext import (
     CommandHandler,
@@ -23,8 +25,11 @@ from telegram.ext import (
 def bot():
 
     updater = Updater(token=bot_settings.BOT_TOKEN, use_context=True)
-    dispatcher = updater.dispatcher
 
+    jq = updater.job_queue
+    jq.run_daily(callback=send_daily_forecast, time=bot_settings.RUN_TIME)
+
+    dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("start", start_handler))
     dispatcher.add_handler(CommandHandler("help", app_help))
     dispatcher.add_handler(CommandHandler("list", get_spots_handler))

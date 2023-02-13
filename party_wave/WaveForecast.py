@@ -13,7 +13,7 @@ class WaveForecast:
 
     def get_forecast(self, spot_id):
         data = requests.get(self.ENDPOINT + spot_id + self.FIELDS).json()
-        lists = [data[i:i+8] for i in range(0, len(data), 8)]
+        lists = [data[i : i + 8] for i in range(0, len(data), 8)]
         result = [[lists[i][j] for j in [2, 4, 6]] for i in range(len(lists))]
         self.forecast = result
 
@@ -35,6 +35,6 @@ class WaveForecast:
                 min_height = obj["swell"].get("minBreakingHeight", 0)
                 max_height = obj["swell"].get("maxBreakingHeight", 0)
                 wind_speed = obj["wind"].get("speed", 0)
-                forecast_day += f"Date: {utc_timestamp}\nRating: {solid_rating}\nMinHeight: {min_height}m\nMaxHeight: {max_height}m\nWindSpeed: {wind_speed}kph\n---------------------------\n"
+                forecast_day += f"Date: {utc_timestamp}\nRating: {solid_rating}\nMinHeight: {min_height}m\nMaxHeight: {max_height}m\nWindSpeed: {wind_speed}kph\n-----------------------------------\n"
             forecast_week += forecast_day + "**********************\n"
         return forecast_week

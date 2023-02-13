@@ -109,9 +109,7 @@ def spot_handler(update: Update, context: CallbackContext):
     context.user_data["cur_spot"] = option
     database = connect_database()
     user_control = UserControl(database)
-    spot_control = SpotControl(database)
     user_control.set_spot(chat_id, option)
-    spot_control.add_user_to_spot(option, chat_id)
     logger.info(f"chat_id #{chat_id} registered spot #{option}")
     context.bot.send_message(
         chat_id,
@@ -145,7 +143,19 @@ def get_forecast(update: Update, context: CallbackContext):
 
 def get_user_interaction(update: Update, context: CallbackContext):
     chat_id = update.effective_message.chat_id
-    logger.info(f"chat_id #{chat_id} wants to send a ")
+    spot_id = context.user_data["cur_spot"]
+    logger.info(f"chat_id #{chat_id} wants to send a report of spot #{spot_id}")
     context.bot.send_message(
         chat_id, "Send a picture or a message about the waves situation"
     )
+
+
+def send_daily_forecast(context):
+    logger.info(f"Bot sending automatic daily forecast")
+    database = connect_database()
+    user_control = UserControl(database)
+    spot_control = SpotControl(database)
+    for user in user_control.users.find_many():
+        for spot in user["spots"]:
+            spot_control.set_spot_forecast(spot)
+            context.bot.send_message(user["chat_id"], spot_control.get_spot_forecast(spot))
