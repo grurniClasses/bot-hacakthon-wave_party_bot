@@ -30,6 +30,7 @@ def bot():
     dispatcher.add_handler(CommandHandler("list", get_spots_handler))
     dispatcher.add_handler(CommandHandler("register", registration_handler))
     dispatcher.add_handler(MessageHandler(Filters.photo, photos_upload_handler))
+    dispatcher.add_handler()
 
     dispatcher.add_handler(
         CallbackQueryHandler(area_handler, pattern="^(north|central|south)$")

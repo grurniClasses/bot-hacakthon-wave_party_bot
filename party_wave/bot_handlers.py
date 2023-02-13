@@ -145,10 +145,17 @@ def photos_upload_handler(update: Update, context: CallbackContext):
     SpotControl.add_pic_to_spot(context.user_data["cur_spot"],filename)
     logger.info(f"= Got photo on chat #{chat_id}, saved on {filename}")
     response = f"Thank you for your upload"
+    send_updated_pic_to_users(context.user_data["cur_spot"],filename,context)
     context.bot.send_message(chat_id=update.message.chat_id, text=response)
 def get_random_code(k=16):
     return "".join(random.choices(string.ascii_lowercase + string.digits, k=k))
 
+def send_updated_pic_to_users(spot_id, pic,context):
+    users = UserControl()
+    userlist= users.user.find()
+    for u in userlist:
+        if spot_id in u["spots"]:
+            context.bot.send_photo(u["chat_id"], pic)
 
 def get_forecast(update: Update, context: CallbackContext):
     chat_id = update.effective_message.chat_id

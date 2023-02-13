@@ -32,15 +32,6 @@ class SpotControl:
         spot = self.spots.find_one({"spot_id": spot_id})
         return spot["imgs"]
 
-    def add_mgs_to_spot(self, spot_id, mgs):
-        updated_spot = self.spots.update_one(
-            {"spot_id": spot_id}, {"$push": {"mgs": mgs}}
-        )
-        return updated_spot
-    def get_mgs_by_spot(self, spot_id):
-        spot = self.spots.find_one({"spot_id": spot_id})
-        return spot["mgs"]
-
     def set_spot_forecast(self, spot_id):
         spot = self.get_spot_by_id(spot_id)
         forecast = WaveForecast()
