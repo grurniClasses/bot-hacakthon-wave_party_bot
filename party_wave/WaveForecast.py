@@ -27,7 +27,6 @@ class WaveForecast:
     def display_forecast(self):
         forecast_week = ""
         for days in range(len(self.forecast)):
-            print(self.forecast[days])
             forecast_day = ""
             for obj in self.forecast[days]:
                 utc_timestamp = self.localtimestamp_to_utc(obj["localTimestamp"])
