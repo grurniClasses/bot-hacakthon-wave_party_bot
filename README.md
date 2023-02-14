@@ -1,20 +1,24 @@
-# 🚧 YOUR BOT NAME HERE
+# Party Wave Bot
 
 ## The Team
 
-- 🚧 Participant 1 - Sara
-- 🚧 Participant 2 - Ayala
-- 🚧 Participant 3 - Igor
+- Participant 1 - Sara
+- Participant 2 - Ayala
+- Participant 3 - Igor
 
 ## About this bot
 
-🚧 ENTER DESCRIPTION HERE
+🏄‍♂️🤙 Welcome to PartyWave, your one-stop solution for all your beach-related needs! Our app allows you to register to your favorite beach and receive daily forecasts, so you never have to worry about the weather. In addition, you can share beach reports with other users, ensuring that everyone stays up-to-date on the latest conditions. Whether you're a seasoned beach-goer or a newbie, the PartyWave got you covered. Let's hit the waves! 🏄‍♀️🤙
 
-🚧 YOU CAN ADD A t.me LINK TO THE BOT HERE
+Photos:
 
-🚧 ADD SCREENSHOTS/GIFS/SCREENCAST HERE (REFER TO MARKDOWN'S SYNTAX FOR HELP ON DISPLAYING IMAGES)
+(./readme_pics/start1.jpeg)
 
-🚧 ADD ANY OTHER NOTES REGARDING THE BOT
+(./readme_pics/start.jpeg)
+
+(./readme_pics/forecast.jpeg)
+
+(./readme_pics/photoup.jpeg)
 
 ## Instructions for Developers
 
@@ -22,7 +26,9 @@
 
 - Python 3.10
 - Poetry
-- 🚧 ADD ANY OTHER PREREQUISITE HERE (MONGODB?)
+- pymongo
+- python-telegram-bot 13.15
+- requests
 
 ### Setup
 

@@ -22,7 +22,7 @@ class UserControl:
         return self.add_user(chat_id)
 
     def remove_spot(self, chat_id, spot_id):
-        user = self.update_one(
+        user = self.users.update_one(
             {"chat_id": chat_id}, {"$pull": {"spots": {"$eq": spot_id}}}
         )
         return user

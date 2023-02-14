@@ -10,6 +10,7 @@ from bot_handlers import (
     get_forecast,
     report_handler,
     get_user_interaction,
+    remove_spot_handler,
     send_daily_forecast,
     photos_upload_handler,
 )
@@ -48,6 +49,7 @@ def bot():
     )
     dispatcher.add_handler(CallbackQueryHandler(get_forecast, pattern="forecast"))
     dispatcher.add_handler(CallbackQueryHandler(report_handler, pattern="report"))
+    dispatcher.add_handler(CallbackQueryHandler(remove_spot_handler, pattern="remove"))
     dispatcher.add_handler(MessageHandler(Filters.photo, photos_upload_handler))
 
     logger.info("** Start polling **")

@@ -116,7 +116,7 @@ def spot_handler(update: Update, context: CallbackContext):
     logger.info(f"chat_id #{chat_id} registered spot #{update.callback_query.data}")
     context.bot.send_message(
         chat_id,
-        "Spot successfully registered.\nNow you will receive daily forecast of your spot and you can also share with others your own wave-report of your spot",
+        f"Spot successfully registered.\nNow you will receive daily forecast of your spot and you can also share with others your own wave-report of your spot",
     )
 
 
@@ -146,6 +146,7 @@ def get_user_interaction(update: Update, context: CallbackContext):
         [
             InlineKeyboardButton("Get forecast", callback_data="forecast"),
             InlineKeyboardButton("Send your personal report", callback_data="report"),
+            InlineKeyboardButton("Remove spot", callback_data="remove"),
         ]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -154,6 +155,15 @@ def get_user_interaction(update: Update, context: CallbackContext):
         text="Please choose an action:",
         reply_markup=reply_markup,
     )
+
+
+def remove_spot_handler(update: Update, context: CallbackContext):
+    chat_id = update.effective_message.chat_id
+    database = connect_database()
+    user_control = UserControl(database)
+    user_control.remove_spot(chat_id, context.user_data["cur_spot"])
+    context.bot.send_message(chat_id, f"Spot succesfully removed. ✅")
+    logger.info(f"chat_id #{chat_id} removed spot")
 
 
 def photos_upload_handler(update: Update, context: CallbackContext):
