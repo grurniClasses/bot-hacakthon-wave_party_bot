@@ -12,13 +12,13 @@
 
 Photos:
 
-(./readme_pics/start1.jpeg)
 
-(./readme_pics/start.jpeg)
+<img src="./readme_pics/start1.jpeg" alt="alt text" width="40%" height="50%"/>
+<img src="./readme_pics/start.jpeg" alt="alt text" width="40%" height="50%"/>
+<br>
+<img src="./readme_pics/forecast.jpeg" alt="alt text" width="40%" height="50%"/>
+<img src="./readme_pics/photoup.jpeg" alt="alt text" width="40%" height="50%"/>
 
-(./readme_pics/forecast.jpeg)
-
-(./readme_pics/photoup.jpeg)
 
 ## Instructions for Developers
 
